@@ -2,18 +2,18 @@ from rest_framework import serializers
 from uodgu.models import Guild, Member, Sop
 
 class GuildSerializer(serializers.Serializer):
-    id = models.BigIntegerField(readonly=True)
-    name = models.CharField(max_length=45)
-    tapi_key = models.CharField(max_length=45, blank=True)
-    tchat_id = models.CharField(max_length=45, blank=True)
-    dapi_key = models.CharField(max_length=45, blank=True)
-    dchat_id = models.CharField(max_length=45, blank=True)
-    soplist = models.PositiveIntegerField(default=0)
-    sopmanager = models.PositiveIntegerField(default=2)
-    guild = models.PositiveIntegerField(default=3)
-    champcount = models.PositiveIntegerField(default=2)
-    raid = models.PositiveIntegerField(default=1)
-    razor_key = models.CharField(readonly=True)
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(max_length=45)
+    tapi_key = serializers.CharField(max_length=45)
+    tchat_id = serializers.CharField(max_length=45)
+    dapi_key = serializers.CharField(max_length=45)
+    dchat_id = serializers.CharField(max_length=45)
+    soplist = serializers.IntegerField(default=0)
+    sopmanager = serializers.IntegerField(default=2)
+    guild = serializers.IntegerField(default=3)
+    champcount = serializers.IntegerField(default=2)
+    raid = serializers.IntegerField(default=1)
+    razor_key = serializers.CharField(read_only=True)
 
     def create(self, validated_data):
         return Guild.objects.create(**validated_data)
@@ -30,33 +30,29 @@ class GuildSerializer(serializers.Serializer):
         instance.raid = validated_data.get('raid', instance.raid)
 
 class MemberSerializer(serializers.Serializer):
-    id = models.BigIntegerField(readonly=True)
-    username = models.CharField(max_length=20)
-    password = models.CharField(max_length=20)
-    alias = models.CharField(max_length=20, default='')
-    rank = models.PositiveIntegerField()
-    roles = models.CharField(max_length=3, default='111')
-    email = models.CharField(max_length=45, default='')
-    guild = models.ForeignKey(Guild,
-                            on_delete=models.CASCADE,
-                            related_name='members')
-    creation_date = models.DateTimeField(default=1, primary_key=True))
-    last_login = models.DateTimeField(default=1, primary_key=True))
-    last_ip = models.CharField(readonly=True)
-    api_key = models.CharField(readonly=True)
+    id = serializers.IntegerField(read_only=True)
+    username = serializers.CharField(max_length=20)
+    password = serializers.CharField(max_length=20)
+    alias = serializers.CharField(max_length=20, default='')
+    rank = serializers.IntegerField()
+    roles = serializers.CharField(max_length=3, default='111')
+    email = serializers.CharField(max_length=45, default='')
+    guild_id = serializers.IntegerField()
+    creation_date = serializers.DateTimeField(read_only=True)
+    last_login = serializers.DateTimeField(read_only=True)
+    last_ip = serializers.CharField(read_only=True)
+    api_key = serializers.CharField(read_only=True)
 
     def create(self, validated_data):
         return Member.objects.create(**validated_data)
 
 class SopSerializer(serializers.Serializer):
-    id = models.BigIntegerField(readonly=True)
-    value = models.PositiveIntegerField()
-    skill = models.CharField(max_length=20, default='Anatomy')
-    expiration = models.FloatField(default=0.0)
-    serial = models.IntegerField(default=1)
-    guild = models.ForeignKey(Guild,
-                            on_delete=models.CASCADE,
-                            related_name='sops')
+    id = serializers.IntegerField(read_only=True)
+    value = serializers.IntegerField()
+    skill = serializers.CharField(max_length=20, default='Anatomy')
+    expiration = serializers.FloatField(default=0.0)
+    serial = serializers.IntegerField(default=1)
+    guild_id = serializers.IntegerField()
 
     def create(self, validated_data):
         return Sop.objects.create(**validated_data)
