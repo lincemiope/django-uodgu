@@ -8,12 +8,24 @@ from rest_framework.response import Response
 from uodgu.models import Guild, Member, Sop
 from uodgu.api.serializers import GuildSerializer, MemberSerializer, SopSerializer
 
+class GuildListCreateAPIView(APIView):
+    def get(self, request):
+        guilds = Guild.objects.all()
+        serializer = GuildSerializer(guilds, many=True)
+        return Response(serializer.data)
+
 class SopListCreateAPIView(APIView):
     def get(self, request):
-        # now = float(time.time())
         sops = Sop.objects.all()
         serializer = SopSerializer(sops, many=True)
         return Response(serializer.data)
+
+class MemberListCreateAPIView(APIView):
+    def get(self, request):
+        members = Member.objects.all()
+        serializer = MemberSerializer(members, many=True)
+        return Response(serializer.data)
+
 # @api_view(["GET"])
 # def sop_list_view(request, pk):
 #     if request.method == 'GET':
