@@ -2,29 +2,29 @@ from datetime import datetime
 from time import time
 from django.utils.timesince import timesince
 from rest_framework import serializers
-from uodgu.models import Guild, Member, Sop
+from uodgu.models import Sop
 
-class MemberSerializer(serializers.ModelSerializer):
-    # guild = GuildSerializer()
-    class Meta:
-        model = Member
-        exclude = ("id","api_key",)
-
-    def validate(self, data):
-        if data["username"] == data["password"]:
-            raise serializers.ValidationError("Utente e password devono differire l'uno dall'altra")
-        return data
-
-    def validate_password(self, value):
-        if len(value) < 6:
-            raise serializers.ValidationError("La password deve essere lunga almeno 6 caratteri")
-        return value
-
-class GuildSerializer(serializers.ModelSerializer):
-    members = MemberSerializer(many=True, read_only=True)
-    class Meta:
-        model = Guild
-        exclude = ("id",)
+# class MemberSerializer(serializers.ModelSerializer):
+#     # guild = GuildSerializer()
+#     class Meta:
+#         model = Member
+#         exclude = ("id","api_key",)
+# 
+#     def validate(self, data):
+#         if data["username"] == data["password"]:
+#             raise serializers.ValidationError("Utente e password devono differire l'uno dall'altra")
+#         return data
+#
+#     def validate_password(self, value):
+#         if len(value) < 6:
+#             raise serializers.ValidationError("La password deve essere lunga almeno 6 caratteri")
+#         return value
+#
+# class GuildSerializer(serializers.ModelSerializer):
+#     members = MemberSerializer(many=True, read_only=True)
+#     class Meta:
+#         model = Guild
+#         exclude = ("id",)
 
 class SopSerializer(serializers.ModelSerializer):
     days= serializers.SerializerMethodField()
