@@ -9,7 +9,7 @@ from uodgu.models import Sop
 #     class Meta:
 #         model = Member
 #         exclude = ("id","api_key",)
-# 
+#
 #     def validate(self, data):
 #         if data["username"] == data["password"]:
 #             raise serializers.ValidationError("Utente e password devono differire l'uno dall'altra")
@@ -56,7 +56,7 @@ class SopSerializer(serializers.ModelSerializer):
 
     def validate_skill(self, value):
         if value not in self.skills_list:
-            raise serializers.ValidationError(f"La skill { value } non è presente nella lista di quelle aventi sop")
+            raise serializers.ValidationError("La skill non è presente nella lista di quelle aventi sop")
         return value
 
 # class SopSerializer(serializers.Serializer):
